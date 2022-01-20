@@ -35,8 +35,11 @@
     </head>
 
     <body>
+        <a href="/view_source/loader-fbx.html" id="vwSrcLink" target="_blank">&lt;&gt;</a>
         <progress value="0" max="100" id="progressBar"></progress>
-
+        <div id="instructions">
+            Model from <a href="https://www.mixamo.com" target="_blank" rel="nofollow noopener">Mixamo</a>
+        </div>
         <script type="module">
             import * as THREE from 'https://cdn.skypack.dev/three@0.135.0/build/three.module.js'
             import { OrbitControls } from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/controls/OrbitControls.js'
@@ -44,21 +47,21 @@
             import Stats from 'https://cdn.skypack.dev/three@0.135.0/examples/jsm/libs/stats.module.js'
 
             const scene = new THREE.Scene()
-            scene.background = new THREE.Color( 0xccFFFF );
-           // scene.add(new THREE.AxesHelper(5))
+            scene.background = new THREE.Color( 0xFFFFFF );
+            scene.add(new THREE.AxesHelper(5))
 /*
             const light = new THREE.PointLight()
-            light.position.set(10.8, 1.4, 1.0)
+            light.position.set(0,0,0)
             scene.add(light)
 
             const directionalLight = new THREE.DirectionalLight( 0x111111, 0.1 );
             scene.add( directionalLight );
 */
-            const ambientLight = new THREE.AmbientLight( 0x889922, 0.6 )
+            const ambientLight = new THREE.AmbientLight( 0xffffff, 1.0 )
             scene.add(ambientLight)
 
             const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000)
-            camera.position.set(15, 7.5, -7.5)
+            camera.position.set(0.001, 0, 0)
 
             const renderer = new THREE.WebGLRenderer()
             renderer.setSize(window.innerWidth, window.innerHeight)
@@ -70,26 +73,21 @@
 
             const material = new THREE.MeshNormalMaterial()
 
-            //BoxGeometry (makes a geometry)
-            const boxgeometry = new THREE.BoxGeometry( 0.5,0.5,0.5);
-            //Material to apply to the cube (green)
-            const boxmaterial = new THREE.MeshBasicMaterial( { color: 0xffab56 } );
-            //Applies material to BoxGeometry
-            const cube1 = new THREE.Mesh( boxgeometry, boxmaterial );
-            cube1.position.set(2.5,2.2,-1);
-            //Adds cube to the scene
-            scene.add( cube1 );
-            const cube2 = new THREE.Mesh( boxgeometry, boxmaterial );
-            cube2.position.set(2.5,2.2,1);
-            //Adds cube to the scene
-            scene.add( cube2 );
-            
-
             const fbxLoader = new FBXLoader()
             fbxLoader.load(
-                'asset/rndcenter.fbx',
+                'asset/town/cafe.fbx',
                 (object) => {
-                     object.scale.set(0.01, 0.01, 0.01)
+                    /*
+                    object.traverse(function (child) {
+                        if (child.isMesh) {
+                            //child.material = material
+                            if (child.material) {
+                                child.material.transparent = false
+                            }
+                        }
+                    })
+                    */
+                    object.scale.set(0.01, 0.01, 0.01)
                     scene.add(object)
                     progressBar.style.display = 'none'
                 },
@@ -112,6 +110,16 @@
                 renderer.setSize(window.innerWidth, window.innerHeight)
                 render()
             }
+
+            // Add event listener on keydown
+            document.addEventListener('keydown', (event) => {
+                var name = event.key;
+                var code = event.code;
+                if (name === 'Control') {
+                window.location = "index.html"
+                return;
+                }
+            }, false);
 
             const stats = Stats()
             document.body.appendChild(stats.dom)
