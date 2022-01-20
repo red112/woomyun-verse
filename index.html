@@ -32,6 +32,7 @@
                 font-family: monospace;
             }
         </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3..1/jquery.min.js"></script>        
     </head>
 
     <body>
@@ -77,11 +78,13 @@
             //Applies material to BoxGeometry
             const cube1 = new THREE.Mesh( boxgeometry, boxmaterial );
             cube1.position.set(2.5,2.2,-1);
+            cube1.name = "cube1";
             //Adds cube to the scene
             scene.add( cube1 );
             const cube2 = new THREE.Mesh( boxgeometry, boxmaterial );
             cube2.position.set(2.5,2.2,1);
             //Adds cube to the scene
+            cube2.name = "cube2";
             scene.add( cube2 );
             
 
@@ -111,6 +114,34 @@
                 camera.updateProjectionMatrix()
                 renderer.setSize(window.innerWidth, window.innerHeight)
                 render()
+            }
+
+            window.addEventListener('click', onPkCheck, false)
+            function onPkCheck() {
+
+                 var mouseVector = new THREE.Vector3();
+                var raycaster = new THREE.Raycaster();
+
+                mouseVector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+                mouseVector.unproject(camera);
+                raycaster.set(camera.position, mouseVector.sub(camera.position).normalize());
+
+                var interTarget = [];
+                interTarget.push(cube1);
+                interTarget.push(cube2);
+                var intersects = raycaster.intersectObjects(interTarget, true);
+                if (intersects.length > 0) {
+                    console.log(intersects[0]);
+                    if(intersects[0].object.name=='cube1')
+                        window.location = "town.html";
+                    else if(intersects[0].object.name=='cube2')
+                        window.location = "cafe.html";
+
+                    //teams_link = "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjU1YjIzMmUtOTNlYS00OTk0LWJiZDEtMzg5MGU2Nzc2MGI5%40thread.v2/0?context=%7b%22Tid%22%3a%22e6c9ec09-8430-4a99-bf15-242bc089b409%22%2c%22Oid%22%3a%22772de039-aaa9-4cf9-97f5-22472c2bd375%22%7d"
+                    //window.open(teams_link);
+                    //window.location = "cafe.html"
+
+                }                
             }
 
             const stats = Stats()
