@@ -67,6 +67,33 @@
             renderer.setSize(window.innerWidth, window.innerHeight)
             document.body.appendChild(renderer.domElement)
 
+            let rot = 0.0;
+
+
+            // PICKING ------------------------------------------
+           //ground
+           var ground_texture, ground_material;
+            ground_texture = THREE.ImageUtils.loadTexture( "./asset/kt_logo.png" );
+            // assuming you want the texture to repeat in both directions:
+            ground_texture.wrapS = THREE.RepeatWrapping; 
+            ground_texture.wrapT = THREE.RepeatWrapping;
+            // how many times to repeat in each direction; the default is (1,1),
+            //   which is probably why your example wasn't working
+            ground_material = new THREE.MeshLambertMaterial({ map : ground_texture });
+
+
+            //BoxGeometry (makes a geometry)
+            const boxgeometry = new THREE.BoxGeometry( 0.1,0.1,0.1);
+            const cube1 = new THREE.Mesh( boxgeometry, ground_material );
+            cube1.position.set(0.5,0.1,0.5);
+            cube1.rotation.set(Math.PI / 4,Math.PI / 4,0);
+            cube1.name = "cube1";
+            //Adds cube to the scene
+            scene.add( cube1 );
+ 
+
+
+
             const controls = new OrbitControls(camera, renderer.domElement)
             controls.enableDamping = true
             controls.target.set(0, 0, 0)
@@ -128,6 +155,9 @@
                 requestAnimationFrame(animate)
 
                 controls.update()
+                rot = rot + 0.01;
+                cube1.rotation.set(Math.PI / 4 + rot,Math.PI / 4 + rot, rot);
+
 
                 render()
 
