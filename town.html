@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Three.js TypeScript Tutorials by Sean Bradley : https://sbcode.net/threejs</title>
+        <title>KT 융합기술원 - 타운홀 / TED 참가</title>
         <meta name="author" content="Sean Bradley" />
         <link rel="stylesheet" href="/stylesheets/style.css" />
         <style>
@@ -74,13 +74,7 @@
            //ground
            var ground_texture, ground_material;
             ground_texture = THREE.ImageUtils.loadTexture( "./asset/kt_logo.png" );
-            // assuming you want the texture to repeat in both directions:
-            ground_texture.wrapS = THREE.RepeatWrapping; 
-            ground_texture.wrapT = THREE.RepeatWrapping;
-            // how many times to repeat in each direction; the default is (1,1),
-            //   which is probably why your example wasn't working
             ground_material = new THREE.MeshLambertMaterial({ map : ground_texture });
-
 
             //BoxGeometry (makes a geometry)
             const boxgeometry = new THREE.BoxGeometry( 0.1,0.1,0.1);
@@ -91,6 +85,25 @@
             //Adds cube to the scene
             scene.add( cube1 );
  
+            // PICKING
+            window.addEventListener('click', onPkCheck, false)
+            function onPkCheck() {
+                var mouseVector = new THREE.Vector3();
+                var raycaster = new THREE.Raycaster();
+                mouseVector.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+                mouseVector.unproject(camera);
+                raycaster.set(camera.position, mouseVector.sub(camera.position).normalize());
+
+                var interTarget = [];
+                interTarget.push(cube1);
+                var intersects = raycaster.intersectObjects(interTarget, true);
+                if (intersects.length > 0) {
+                    console.log(intersects[0]);
+                    if(intersects[0].object.name=='cube1')
+                        window.open("https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjU1YjIzMmUtOTNlYS00OTk0LWJiZDEtMzg5MGU2Nzc2MGI5%40thread.v2/0?context=%7b%22Tid%22%3a%22e6c9ec09-8430-4a99-bf15-242bc089b409%22%2c%22Oid%22%3a%22772de039-aaa9-4cf9-97f5-22472c2bd375%22%7d");
+                }                
+            }
+
 
 
 

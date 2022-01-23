@@ -162,6 +162,7 @@
             movieCubeScreen2.rotation.set(0,0.85,0);
             movieCubeScreen2.position.set(-16,2.5,-7);
             scene.add(movieCubeScreen2);
+            let rot = 0;
 
 
 
@@ -222,6 +223,11 @@
                 videoTexture2.needsUpdate = true;
                 requestAnimationFrame(animate)
                 controls.update()
+
+                rot = rot + 0.01;
+                cube1.rotation.set(Math.PI / 4 + rot,Math.PI / 4 + rot*3, rot);
+                cube2.rotation.set(Math.PI / 4 + rot*2, rot,Math.PI / 4 + rot);
+
                 render()
             }
 
