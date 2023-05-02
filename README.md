@@ -3,5 +3,8 @@
 
 https://red112.github.io/woomyun-verse/
 
-# Play movie clips : Press Key 1 or 2 (Stop : Space)
-# Link : Click Rotating Cube
+# Keys
+- Play movie clip 1 : Key 1
+- Play movie clip 2 : Key 2
+- Stop playing : Key Space
+- Link : Click Rotating Cube
